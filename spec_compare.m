@@ -1,12 +1,11 @@
-% Simulaion Settings
+% Simulation Settings
 
-% 
-npt=struct;         % Initialize the structure
-npt.Tp=1;           % [ms] Pulse time
-npt.mod_amp=10;     % [kHz] Modulation Rabi Amplitude
-npt.freq_amp=5;     % [kHz] Frequency Detuning Amplitude
-npt.delta0=0;       % [kHz] Center Frequency
-npt.doPlot = 0;     % Show the time traces?
+npt=struct;             % Initialize the structure
+npt.Tp          =1;     % [ms] Pulse time
+npt.mod_amp     =10;    % [kHz] Modulation Rabi Amplitude
+npt.freq_amp    =5;     % [kHz] Frequency Detuning Amplitude
+npt.delta0      =0;     % [kHz] Center Frequency
+npt.doPlot      = 0;    % Show the time traces?
 
 % How many detunings to simulate
 delta0vec=linspace(-4*npt.freq_amp,4*npt.freq_amp,100);
@@ -33,15 +32,15 @@ for kk=1:length(delta0vec)
     disp('done');
 end
 
-%%
+%% Plot the Results
 str=['$\Omega_0=2\pi \times' num2str(npt.mod_amp) '~\mathrm{kHz}$' newline ...
     '$T_p=' num2str(npt.Tp) '~\mathrm{ms}$' newline ...
     '$\Delta_{\mathrm{amp}}=' num2str(npt.freq_amp) '~\mathrm{kHz}$'];
 
+
 hf1=figure(101);
 clf
 hf1.Color='w';
-
 hf1.Position(3:4)=[400 400];
 
 co=get(gca,'colororder');
