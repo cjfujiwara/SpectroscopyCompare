@@ -2,7 +2,7 @@
 
 npt=struct;             % Initialize the structure
 npt.Tp          =1;     % [ms] Pulse time
-npt.mod_amp     =10;    % [kHz] Modulation Rabi Amplitude
+npt.mod_amp     =12;    % [kHz] Modulation Rabi Amplitude
 npt.freq_amp    =5;     % [kHz] Frequency Detuning Amplitude
 npt.delta0      =0;     % [kHz] Center Frequency
 npt.doPlot      = 0;    % Show the time traces?
@@ -38,7 +38,7 @@ str=['$\Omega_0=2\pi \times' num2str(npt.mod_amp) '~\mathrm{kHz}$' newline ...
     '$\Delta_{\mathrm{amp}}=' num2str(npt.freq_amp) '~\mathrm{kHz}$'];
 
 
-hf1=figure(101);
+hf1=figure;
 clf
 hf1.Color='w';
 hf1.Position(3:4)=[400 400];
