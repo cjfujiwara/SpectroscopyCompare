@@ -1,10 +1,10 @@
 % Simulation Settings
 
 npt=struct;             % Initialize the structure
-npt.Tp          =1;     % [ms] Pulse time
-npt.mod_amp     =12;    % [kHz] Modulation Rabi Amplitude
-npt.freq_amp    =5;     % [kHz] Frequency Detuning Amplitude
-npt.delta0      =0;     % [kHz] Center Frequency
+npt.Tp          = 1;     % [ms] Pulse time
+npt.mod_amp     = 8;    % [kHz] Modulation Rabi Amplitude
+npt.freq_amp    = 2.5;     % [kHz] Frequency Detuning Amplitude
+npt.delta0      = 0;     % [kHz] Center Frequency
 npt.doPlot      = 0;    % Show the time traces?
 
 % How many detunings to simulate
