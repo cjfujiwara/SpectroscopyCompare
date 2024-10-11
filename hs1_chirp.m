@@ -19,6 +19,17 @@ hs1_rabi=@(t) nput.mod_amp*sech(2*beta/nput.Tp*t);
 hs1_detune=@(t) nput.freq_amp*tanh(2*beta/nput.Tp*t)+nput.delta0;
 
 chirp_rabi=@(t) B*nput.mod_amp*(t>-nput.Tp/2).*(t<nput.Tp/2);
+
+if isfield(nput,'LinRampTime') && nput.LinRampTime~=0
+    T=nput.LinRampTime;
+    t1 = -nput.Tp/2-T;
+    t2 = nput.Tp/2+T;
+    chirp_rabi=@(t) B*nput.mod_amp*(t>-nput.Tp/2).*(t<nput.Tp/2)+...
+        (t<=-nput.Tp/2).*(t>=t1).*(t-t1)/T*B*nput.mod_amp+...
+        (t>=nput.Tp/2).*(t<=t2).*((t2-t)/T)*B*nput.mod_amp;
+end
+
+
 chirp_detune=@(t) -nput.freq_amp+2*((t+nput.Tp/2)/nput.Tp)*nput.freq_amp.*(t>-nput.Tp/2).*(t<nput.Tp/2)+2*nput.freq_amp.*(t>=nput.Tp/2)+nput.delta0;
 
 rho0=[1 0 0 0];%start in excited state
