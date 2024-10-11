@@ -4,10 +4,13 @@ npt=struct;
 npt.RabiA = sqrt(2)*8.84;
 
 if nargin~=1
-    delta = 100;
+    delta = 33;
 end
 
-etaVec = .1:.05:1;
+etaVec = 3:.1:.3;
+
+etaVec=.3;
+
 for kk=1:length(etaVec)
     npt.delta   = delta;
     npt.d0      = npt.delta*2;

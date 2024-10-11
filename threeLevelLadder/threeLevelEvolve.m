@@ -82,6 +82,8 @@ ylim([0 1]);
 
 ax=subplot(3,3,[7 8]);
 plot(t_out,real(rho_out(:,9)),'-','color',co(3,:),'linewidth',2);
+
+
 xlabel('time (ms)');
 ylabel('\rho_{22}');
 xlim(tspan);
@@ -91,6 +93,7 @@ ylim([0 1.2]*sqrt(Cbare^2/(deff^2+Ceff^2)));
 hold on
 plot([1 1]*Tc,[0 1],'k--');
 plot([0 1]*3*Tc,[1 1]*sqrt(Cbare^2/(deff^2+Ceff^2)),'k--');
+
 
 ax3=subplot(1,3,3);
 ax3.Units='pixels';
@@ -123,6 +126,11 @@ t1.Data{9,2}=num2str(Tc);
 t1.Data{10,2}=num2str(sqrt(Cbare^2/(deff^2+Ceff^2)));
 
 out = struct;
+out.eta = eta;
+out.RabiBare = npt.RabiA;
+out.Delta = npt.delta;
+out.Delta0 = npt.d0;
+
 out.t = t_out;
 out.rho11 = real(rho_out(:,1));
 out.rho22 = real(rho_out(:,5));
@@ -130,17 +138,30 @@ out.rho33 = real(rho_out(:,9));
 
 out.EffectiveRabiTheory = Ceff;
 out.EffectiveRabiAmplitude = sqrt(Cbare^2/(deff^2+Ceff^2));
+out.EffectiveRabiTheory2 = (sqrt((out.Delta)^2+(1+npt.eta^2)*npt.RabiA^2)-(out.Delta))/2;
 
-out.eta = eta;
-out.RabiBare = npt.RabiA;
-out.Delta = npt.delta;
-out.Delta0 = npt.d0;
+plot([1 1]/out.EffectiveRabiTheory2,[0 1],'b--');
 
 if npt.doFit
    myfit = fittype('A*sin(pi*f*t).^2','independent','t','coefficients',{'A','f'});
    fitopt=fitoptions(myfit);
-   fitopt.StartPoint = [max(real(rho_out(:,9))) Ceff*(1-0.5*(Ceff/d(0))^2)];
-   fitopt.Upper = [max(real(rho_out(:,9)))*1.05 Ceff*1.05];
+   
+   D2 = (2*out.Delta-out.Delta0);
+    disp(D2-out.Delta)
+f=out.EffectiveRabiTheory2;
+f=sqrt(f^2+D2^2)+D2*((1-eta)+0.5*(1-eta)^2);
+   
+    plot([1 1]/f,[0 1],'g--');
+   t1.Data{14,2}=num2str(f);
+
+
+   fitopt.StartPoint=[max(real(rho_out(:,9))) f];
+   fitopt.Upper=fitopt.StartPoint*1.5;
+   fitopt.Low=fitopt.StartPoint.*[.9 .5];
+
+   t1.Data{13,1}='freq theory2 (kHz)';
+   t1.Data{13,2}=num2str(out.EffectiveRabiTheory2);
+  
    fout = fit(t_out,real(rho_out(:,9)),myfit,fitopt);
    axes(ax)
    hold on
@@ -153,7 +174,10 @@ if npt.doFit
    out.EffectiveRabiFit = CeffFit;
 
 end
-
+% 
+% figure(2)
+% clf
+% plot(t_out,(out.rho33-out.rho11)-out.rho22)
 
 end
 

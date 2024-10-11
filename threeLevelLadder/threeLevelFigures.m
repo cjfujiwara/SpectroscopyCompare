@@ -37,7 +37,7 @@ npt=struct;
 npt.RabiA = sqrt(2)*8.84;
 npt.delta   = 20;
 npt.d0      = npt.delta*2;
-npt.eta     = .7;
+npt.eta     = .4;
 npt.doFit   = 1;
 out=threeLevelEvolve(npt);
 
